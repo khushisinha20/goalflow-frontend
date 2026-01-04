@@ -1,1 +1,82 @@
-<p>signup works!</p>
+<div class="signup-container">
+  <mat-card class="signup-card">
+    <mat-card-header>
+      <mat-card-title>Create Account</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Full Name</mat-label>
+          <input matInput formControlName="fullName" placeholder="Enter your full name">
+          <mat-error *ngIf="fullName?.hasError('required')">
+            Full name is required
+          </mat-error>
+          <mat-error *ngIf="fullName?.hasError('minlength')">
+            Name must be at least 2 characters
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" placeholder="Enter your email">
+          <mat-error *ngIf="email?.hasError('required')">
+            Email is required
+          </mat-error>
+          <mat-error *ngIf="email?.hasError('email')">
+            Please enter a valid email
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password" placeholder="At least 8 characters">
+          <mat-error *ngIf="password?.hasError('required')">
+            Password is required
+          </mat-error>
+          <mat-error *ngIf="password?.hasError('minlength')">
+            Password must be at least 8 characters
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Confirm Password</mat-label>
+          <input matInput type="password" formControlName="confirmPassword" placeholder="Re-enter password">
+          <mat-error *ngIf="confirmPassword?.hasError('required')">
+            Please confirm your password
+          </mat-error>
+          <mat-error *ngIf="confirmPassword?.hasError('passwordMismatch')">
+            Passwords do not match
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Timezone</mat-label>
+          <mat-select formControlName="timezone">
+            <mat-option *ngFor="let tz of timezones" [value]="tz.value">
+              {{ tz.label }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div class="success-message" *ngIf="successMessage">
+          {{ successMessage }}
+        </div>
+
+        <div class="error-message" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
+
+        <button mat-raised-button color="primary" type="submit" 
+                [disabled]="loading || signupForm.invalid" class="full-width">
+          <span *ngIf="!loading">Sign Up</span>
+          <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
+        </button>
+
+        <div class="login-link">
+          Already have an account? <a routerLink="/login">Login</a>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

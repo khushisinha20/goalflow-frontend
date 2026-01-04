@@ -1,1 +1,15 @@
-<p>dashboard works!</p>
+<mat-toolbar color="primary">
+  <span>GoalFlow</span>
+  <span class="spacer"></span>
+  <span *ngIf="currentUser">{{ currentUser.fullName }}</span>
+  <button mat-icon-button (click)="logout()">
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div class="dashboard-container">
+  <h1>Welcome to Your Dashboard!</h1>
+  <p *ngIf="currentUser">Hello, {{ currentUser.fullName }}!</p>
+  <p>Authentication is working! 🎉</p>
+  <p>Tomorrow we'll build the calendar view here.</p>
+</div>
