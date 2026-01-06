@@ -1,0 +1,58 @@
+<h2 mat-dialog-title>{{ isEditMode ? 'Edit Target' : 'Create Target' }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="targetForm">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title" placeholder="Enter target title">
+      <mat-error *ngIf="title?.hasError('required')">
+        Title is required
+      </mat-error>
+      <mat-error *ngIf="title?.hasError('maxlength')">
+        Title must not exceed 100 characters
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description" 
+                placeholder="Add details (optional)" rows="3"></textarea>
+      <mat-error *ngIf="description?.hasError('maxlength')">
+        Description must not exceed 500 characters
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="targetDate">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="targetDate?.hasError('required')">
+        Date is required
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Category</mat-label>
+      <mat-select formControlName="categoryId">
+        <mat-option [value]="null">None</mat-option>
+        <mat-option *ngFor="let category of categories" [value]="category.id">
+          <span [style.color]="category.color">●</span> {{ category.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="error-message" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()" [disabled]="loading">Cancel</button>
+  <button mat-raised-button color="primary" (click)="onSubmit()" 
+          [disabled]="loading || targetForm.invalid">
+    <span *ngIf="!loading">{{ isEditMode ? 'Update' : 'Create' }}</span>
+    <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,87 @@
+<h2 mat-dialog-title>
+  {{ getFormattedDate() }}
+  <button mat-icon-button class="close-button" (click)="close()">
+    <mat-icon>close</mat-icon>
+  </button>
+</h2>
+
+<mat-dialog-content>
+  <div class="stats-bar" *ngIf="dailyStats">
+    <div class="stat-item">
+      <span class="stat-label">Total:</span>
+      <span class="stat-value">{{ dailyStats.totalTargets }}</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Completed:</span>
+      <span class="stat-value completed">{{ dailyStats.completedTargets }}</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-label">Completion:</span>
+      <span class="stat-value">{{ dailyStats.completionPercentage | number:'1.0-0' }}%</span>
+    </div>
+  </div>
+
+  <div class="targets-list">
+    <div class="target-card" *ngFor="let target of targets" [class]="getStatusColor(target.executionStatus)">
+      <div class="target-header">
+        <mat-icon [class]="getStatusColor(target.executionStatus)">
+          {{ getStatusIcon(target.executionStatus) }}
+        </mat-icon>
+        <div class="target-info">
+          <h3>{{ target.title }}</h3>
+          <p *ngIf="target.description" class="target-description">{{ target.description }}</p>
+          <div class="target-meta">
+            <mat-chip *ngIf="target.categoryName" [style.background-color]="target.categoryColor" class="category-chip">
+              {{ target.categoryName }}
+            </mat-chip>
+            <span class="status-badge" [class]="getStatusColor(target.executionStatus)">
+              {{ target.executionStatus }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="target-actions">
+        <button mat-icon-button 
+                *ngIf="target.executionStatus === ExecutionStatus.PENDING"
+                (click)="markAsCompleted(target)"
+                [disabled]="loading"
+                matTooltip="Mark as completed">
+          <mat-icon>check</mat-icon>
+        </button>
+        <button mat-icon-button 
+                *ngIf="target.executionStatus === ExecutionStatus.PENDING"
+                (click)="markAsSkipped(target)"
+                [disabled]="loading"
+                matTooltip="Skip">
+          <mat-icon>do_not_disturb</mat-icon>
+        </button>
+        <button mat-icon-button 
+                (click)="editTarget(target)"
+                [disabled]="loading"
+                matTooltip="Edit">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button 
+                (click)="deleteTarget(target)"
+                [disabled]="loading"
+                matTooltip="Delete"
+                color="warn">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="targets.length === 0">
+      <mat-icon>event_note</mat-icon>
+      <p>No targets for this day</p>
+</div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" (click)="addTarget()">
+    <mat-icon>add</mat-icon>
+    Add Target
+  </button>
+  <button mat-button (click)="close()">Close</button>
+</mat-dialog-actions>

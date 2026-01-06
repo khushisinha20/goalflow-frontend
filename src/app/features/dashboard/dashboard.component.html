@@ -8,8 +8,40 @@
 </mat-toolbar>
 
 <div class="dashboard-container">
-  <h1>Welcome to Your Dashboard!</h1>
-  <p *ngIf="currentUser">Hello, {{ currentUser.fullName }}!</p>
-  <p>Authentication is working! 🎉</p>
-  <p>Tomorrow we'll build the calendar view here.</p>
+  <h1>Welcome to GoalFlow!</h1>
+
+  <mat-card class="streak-card" *ngIf="streak">
+    <mat-card-content>
+      <div class="streak-display">
+        <div class="streak-icon">🔥</div>
+        <div class="streak-info">
+          <h2>{{ streak.currentStreak }} Day Streak</h2>
+          <p>Best: {{ streak.bestStreak }} days</p>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Today's Targets -->
+  <mat-card class="targets-card">
+    <mat-card-header>
+      <mat-card-title>Today's Targets</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p *ngIf="todayTargets.length === 0">No targets for today</p>
+      <p *ngIf="todayTargets.length > 0">You have {{ todayTargets.length }} target(s) today</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="openCreateTarget()">
+        <mat-icon>add</mat-icon>
+        Create Target
+      </button>
+      <button mat-raised-button (click)="openDayDetail()" *ngIf="todayTargets.length > 0">
+        <mat-icon>visibility</mat-icon>
+        View Today
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <p class="info-text">Day 6 Complete! Target management and execution tracking working! 🎉</p>
 </div>
