@@ -2,60 +2,114 @@
   flex: 1 1 auto;
 }
 
-.dashboard-container {
-  padding: 40px;
-  max-width: 1200px;
-  margin: 0 auto;
+.logo {
+  font-size: 20px;
+  font-weight: 600;
 }
 
-.dashboard-container h1 {
-  color: #667eea;
-  margin-bottom: 30px;
+.toolbar-streak {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: 20px;
+  padding: 6px 12px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+}
+
+.streak-icon {
+  font-size: 20px;
+}
+
+.streak-number {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.streak-label {
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.user-name {
+  margin-right: 12px;
+  font-size: 14px;
+}
+
+.dashboard-container {
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .streak-card {
   margin-bottom: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
 }
 
 .streak-display {
+  padding: 10px;
+}
+
+.streak-main {
   display: flex;
   align-items: center;
   gap: 20px;
+  margin-bottom: 16px;
 }
 
-.streak-icon {
-  font-size: 64px;
+.streak-icon-large {
+  font-size: 72px;
+  line-height: 1;
 }
 
 .streak-info h2 {
   margin: 0;
-  font-size: 32px;
-  color: #333;
+  font-size: 36px;
+  font-weight: 700;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
 }
 
-.streak-info p {
-  margin: 4px 0 0 0;
-  color: #666;
-}
-
-.targets-card {
-  margin-bottom: 20px;
-}
-
-mat-card-actions button {
-  margin-right: 8px;
-}
-
-mat-card-actions button mat-icon {
-  margin-right: 4px;
-  font-size: 20px;
-  width: 20px;
-  height: 20px;
-}
-
-.info-text {
-  text-align: center;
-  color: #666;
+.best-streak {
+  margin: 8px 0 0 0;
   font-size: 16px;
-  margin-top: 40px;
+  opacity: 0.9;
+}
+
+.streak-message {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 12px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.streak-message p {
+  margin: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .toolbar-streak {
+    display: none;
+  }
+
+  .user-name {
+    display: none;
+  }
+
+  .streak-main {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .streak-info h2 {
+    font-size: 28px;
+  }
+
+  .streak-message {
+    font-size: 14px;
+  }
 }

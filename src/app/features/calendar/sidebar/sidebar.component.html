@@ -1,0 +1,36 @@
+<div class="sidebar-container">
+  <mat-card class="add-target-card">
+    <button mat-raised-button color="primary" class="add-target-btn" (click)="addTarget()">
+      <mat-icon>add</mat-icon>
+      <span>New Target</span>
+    </button>
+  </mat-card>
+
+  <mat-card class="categories-card">
+    <mat-card-header>
+      <mat-card-title>Categories</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="category-list">
+        <button 
+          mat-button 
+          class="category-item"
+          [class.active]="selectedCategoryId === null"
+          (click)="selectCategory(null)">
+          <span class="category-color all-color">●</span>
+          <span class="category-name">All</span>
+        </button>
+        
+        <button 
+          mat-button 
+          class="category-item"
+          *ngFor="let category of categories"
+          [class.active]="selectedCategoryId === category.id"
+          (click)="selectCategory(category.id)">
+          <span class="category-color" [style.color]="category.color">●</span>
+          <span class="category-name">{{ category.name }}</span>
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
