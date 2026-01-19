@@ -10,6 +10,7 @@
   align-items: center;
   margin-bottom: 30px;
   padding: 0 10px;
+  gap: 20px;
 }
 
 .header-left h1 {
@@ -218,5 +219,39 @@
   .calendar-legend {
     flex-direction: column;
     gap: 12px;
+  }
+}
+
+.header-center {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+}
+
+.header-left {
+  flex: 1;
+}
+
+.header-actions {
+  flex: 1;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .calendar-header {
+    flex-wrap: wrap;
+  }
+  
+  .header-left, .header-center, .header-actions {
+    flex: 100%;
+    justify-content: center;
+  }
+  
+  .header-actions {
+    margin-top: 12px;
   }
 }

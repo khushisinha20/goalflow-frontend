@@ -2,10 +2,18 @@
   <!-- Calendar Header -->
   <div class="calendar-header">
     <div class="header-left">
-      <h1>{{ getMonthYearDisplay() }}</h1>
+      <h1 *ngIf="currentView === 'monthly'">{{ getMonthYearDisplay() }}</h1>
+      <h1 *ngIf="currentView !== 'monthly'">Calendar</h1>
     </div>
 
-    <div class="header-actions">
+    <div class="header-center">
+      <app-view-switcher 
+        [currentView]="currentView"
+        (viewChange)="onViewChange($event)">
+      </app-view-switcher>
+    </div>
+
+    <div class="header-actions" *ngIf="currentView === 'monthly'">
       <button mat-icon-button (click)="previousMonth()" matTooltip="Previous Month">
         <mat-icon>chevron_left</mat-icon>
       </button>
@@ -25,72 +33,84 @@
     </div>
   </div>
 
-  <!-- Loading Spinner -->
-  <div class="loading-container" *ngIf="loading">
-    <mat-spinner diameter="40"></mat-spinner>
-  </div>
-
-  <!-- Calendar Grid -->
-  <div class="calendar-grid" *ngIf="!loading">
-    <!-- Weekday Headers -->
-    <div class="weekday-header" *ngFor="let day of weekDays">
-      {{ day }}
+  <!-- Monthly View -->
+  <div *ngIf="currentView === 'monthly'">
+    <!-- Loading Spinner -->
+    <div class="loading-container" *ngIf="loading">
+      <mat-spinner diameter="40"></mat-spinner>
     </div>
 
-    <!-- Calendar Days -->
-    <ng-container *ngFor="let week of weeks">
-      <div
-        *ngFor="let day of week.days"
-        [class]="getDayClass(day)"
-        (click)="openDayDetail(day)"
-        [matTooltip]="hasTargets(day) ? getDayStats(day).completed + '/' + getDayStats(day).total + ' completed' : ''"
-      >
-        <!-- Day Number -->
-        <div class="day-number">
-          {{ day.dayNumber }}
-        </div>
-
-        <!-- Target Indicators -->
-        <div class="target-indicators" *ngIf="hasTargets(day)">
-          <div
-            class="target-dot"
-            *ngFor="let indicator of getTargetIndicators(day)"
-            [style.background-color]="indicator.color"
-            [matTooltip]="indicator.count + ' target(s)'"
-          ></div>
-        </div>
-
-        <!-- Completion Badge -->
-        <div class="completion-badge" *ngIf="hasTargets(day)">
-          <span class="completion-text">
-            {{ getDayStats(day).completed }}/{{ getDayStats(day).total }}
-          </span>
-          <div 
-            class="completion-bar"
-            [style.width.%]="getDayStats(day).percentage"
-          ></div>
-        </div>
+    <!-- Calendar Grid -->
+    <div class="calendar-grid" *ngIf="!loading">
+      <!-- Weekday Headers -->
+      <div class="weekday-header" *ngFor="let day of weekDays">
+        {{ day }}
       </div>
-    </ng-container>
+
+      <!-- Calendar Days -->
+      <ng-container *ngFor="let week of weeks">
+        <div
+          *ngFor="let day of week.days"
+          [class]="getDayClass(day)"
+          (click)="openDayDetail(day)"
+          [matTooltip]="hasTargets(day) ? getDayStats(day).completed + '/' + getDayStats(day).total + ' completed' : ''"
+        >
+          <!-- Day Number -->
+          <div class="day-number">
+            {{ day.dayNumber }}
+          </div>
+
+          <!-- Target Indicators -->
+          <div class="target-indicators" *ngIf="hasTargets(day)">
+            <div
+              class="target-dot"
+              *ngFor="let indicator of getTargetIndicators(day)"
+              [style.background-color]="indicator.color"
+              [matTooltip]="indicator.count + ' target(s)'"
+            ></div>
+          </div>
+
+          <!-- Completion Badge -->
+          <div class="completion-badge" *ngIf="hasTargets(day)">
+            <span class="completion-text">
+              {{ getDayStats(day).completed }}/{{ getDayStats(day).total }}
+            </span>
+            <div 
+              class="completion-bar"
+              [style.width.%]="getDayStats(day).percentage"
+            ></div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- Legend -->
+    <div class="calendar-legend">
+      <div class="legend-item">
+        <span class="legend-indicator today-indicator"></span>
+        <span>Today</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-indicator completed-indicator"></span>
+        <span>Fully Completed</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-indicator partial-indicator"></span>
+        <span>Partially Completed</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-indicator missed-indicator"></span>
+        <span>Missed Targets</span>
+      </div>
+    </div>
   </div>
 
-  <!-- Legend -->
-  <div class="calendar-legend">
-    <div class="legend-item">
-      <span class="legend-indicator today-indicator"></span>
-      <span>Today</span>
-    </div>
-    <div class="legend-item">
-      <span class="legend-indicator completed-indicator"></span>
-      <span>Fully Completed</span>
-    </div>
-    <div class="legend-item">
-      <span class="legend-indicator partial-indicator"></span>
-      <span>Partially Completed</span>
-    </div>
-    <div class="legend-item">
-      <span class="legend-indicator missed-indicator"></span>
-      <span>Missed Targets</span>
-    </div>
-  </div>
+  <!-- Multi-Month View -->
+  <app-multi-month-view *ngIf="currentView === 'multi-month'"></app-multi-month-view>
+
+  <!-- Yearly View -->
+  <app-yearly-view 
+    *ngIf="currentView === 'yearly'"
+    (monthSelected)="onMonthSelected($event)">
+  </app-yearly-view>
 </div>

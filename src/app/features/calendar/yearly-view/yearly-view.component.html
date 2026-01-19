@@ -1,0 +1,85 @@
+<div class="yearly-container">
+  <!-- Header -->
+  <div class="yearly-header">
+    <button mat-icon-button (click)="previousYear()">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    
+    <h1>{{ currentYear }}</h1>
+    
+    <button mat-raised-button (click)="goToCurrentYear()">
+      Current Year
+    </button>
+    
+    <button mat-icon-button (click)="nextYear()">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div class="loading-container" *ngIf="loading">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+
+  <!-- Year Grid -->
+  <div class="year-grid" *ngIf="!loading">
+    <div
+      *ngFor="let month of months"
+      [class]="getMonthClass(month)"
+      (click)="onMonthClick(month)"
+      [class.current-month]="isCurrentMonth(month.monthIndex)"
+    >
+      <!-- Month Name -->
+      <div class="month-name">
+        {{ month.monthName }}
+      </div>
+
+      <!-- Stats -->
+      <div class="month-stats" *ngIf="month.totalTargets > 0">
+        <div class="grade">
+          {{ getMonthGrade(month.completionPercentage) }}
+        </div>
+        <div class="completion-text">
+          {{ month.completedTargets }}/{{ month.totalTargets }}
+        </div>
+        <div class="percentage">
+          {{ month.completionPercentage | number:'1.0-0' }}%
+        </div>
+      </div>
+
+      <!-- No Data Message -->
+      <div class="no-data-message" *ngIf="month.totalTargets === 0">
+        <mat-icon>event_busy</mat-icon>
+        <span>No targets</span>
+      </div>
+
+      <!-- Completion Bar -->
+      <div class="completion-bar-container" *ngIf="month.totalTargets > 0">
+        <div 
+          class="completion-bar"
+          [style.width.%]="month.completionPercentage"
+        ></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="yearly-legend">
+    <div class="legend-item">
+      <span class="legend-box excellent"></span>
+      <span>Excellent (80%+)</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-box good"></span>
+      <span>Good (60-79%)</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-box average"></span>
+      <span>Average (40-59%)</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-box needs-work"></span>
+      <span>Needs Work (<40%)</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+mat-button-toggle-group {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border-radius: 4px;
+}
+
+mat-button-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+}
+
+.view-label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .view-label {
+    display: none;
+  }
+  
+  mat-button-toggle {
+    padding: 8px 12px;
+  }
+}

@@ -1,0 +1,55 @@
+<div class="multi-month-container">
+  <!-- Header -->
+  <div class="multi-month-header">
+    <button mat-icon-button (click)="previousPeriod()">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    
+    <button mat-raised-button (click)="goToToday()">
+      Today
+    </button>
+    
+    <button mat-icon-button (click)="nextPeriod()">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div class="loading-container" *ngIf="loading">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+
+  <!-- Multi-Month Grid -->
+  <div class="months-grid" *ngIf="!loading">
+    <div class="month-card" *ngFor="let monthData of months">
+      <!-- Month Header -->
+      <div class="month-header">
+        <h3>{{ monthData.monthName }} {{ monthData.year }}</h3>
+      </div>
+
+      <!-- Mini Calendar -->
+      <div class="mini-calendar">
+        <!-- Weekday Headers -->
+        <div class="mini-weekday" *ngFor="let day of weekDays">
+          {{ day }}
+        </div>
+
+        <!-- Calendar Days -->
+        <ng-container *ngFor="let week of monthData.weeks">
+          <div
+            *ngFor="let day of week.days"
+            [class]="getDayClass(day, monthData)"
+            (click)="openDayDetail(day)"
+          >
+            <span class="day-number">{{ day.dayNumber }}</span>
+            <div 
+              class="completion-indicator" 
+              *ngIf="hasTargets(day)"
+              [style.width.%]="getCompletionPercentage(day.date)"
+            ></div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

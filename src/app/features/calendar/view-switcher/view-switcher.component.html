@@ -1,0 +1,20 @@
+<mat-button-toggle-group 
+  [value]="currentView" 
+  (change)="onViewChange($event.value)"
+  aria-label="Calendar view">
+  
+  <mat-button-toggle value="monthly">
+    <mat-icon>calendar_view_month</mat-icon>
+    <span class="view-label">Month</span>
+  </mat-button-toggle>
+  
+  <mat-button-toggle value="multi-month">
+    <mat-icon>view_module</mat-icon>
+    <span class="view-label">3 Months</span>
+  </mat-button-toggle>
+  
+  <mat-button-toggle value="yearly">
+    <mat-icon>calendar_view_day</mat-icon>
+    <span class="view-label">Year</span>
+  </mat-button-toggle>
+</mat-button-toggle-group>

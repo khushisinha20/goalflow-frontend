@@ -10,6 +10,9 @@ import { Target, ExecutionStatus } from '../../../shared/models/target.model';
 import { CalendarHelper, CalendarWeek, CalendarDay } from '../../../shared/utils/calendar.helper';
 import { DayDetailModalComponent } from '../day-detail-modal/day-detail-modal.component';
 import { TargetFormComponent } from '../target-form/target-form.component';
+import { ViewSwitcherComponent, CalendarViewType } from '../view-switcher/view-switcher.component';
+import { MultiMonthViewComponent } from '../multi-month-view/multi-month-view.component';
+import { YearlyViewComponent } from '../yearly-view/yearly-view.component';
 
 interface DayTargets {
   [dateKey: string]: Target[];
@@ -30,7 +33,10 @@ interface DayStats {
     MatIconModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
-    MatDialogModule
+    MatDialogModule,
+    ViewSwitcherComponent,
+    MultiMonthViewComponent,
+    YearlyViewComponent
   ],
   templateUrl: './calendar-view.component.html',
   styleUrls: ['./calendar-view.component.css']
@@ -42,6 +48,7 @@ export class CalendarViewComponent implements OnInit {
   weeks: CalendarWeek[] = [];
   targets: Target[] = [];
   dayTargets: DayTargets = {};
+  currentView: CalendarViewType = 'monthly';
   loading = false;
 
   weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -210,5 +217,21 @@ export class CalendarViewComponent implements OnInit {
 
   hasTargets(day: CalendarDay): boolean {
     return this.getTargetsForDay(day).length > 0;
+  }
+
+  onViewChange(view: CalendarViewType): void {
+    this.currentView = view;
+    if (view === 'monthly') {
+      this.generateCalendar();
+      this.loadTargets();
+    }
+  }
+
+  onMonthSelected(event: { year: number; month: number }): void {
+    this.currentYear = event.year;
+    this.currentMonth = event.month;
+    this.currentView = 'monthly';
+    this.generateCalendar();
+    this.loadTargets();
   }
 }
